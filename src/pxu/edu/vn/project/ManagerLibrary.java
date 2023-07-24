@@ -10,6 +10,9 @@ import java.util.Scanner;
 public class ManagerLibrary {
 
 	static final String URI_SAVE_FILE = "/Users/lctiendat/Documents/books.txt";
+	static final String DATA_NOT_FOUND = "Data not found";
+	static final String FIND_ERROR = "Not find data with code : ";
+	static final String INPUT_ERROR = "Enter input incorrect, error : ";
 	static int[] code;
 	static String[] name;
 	static int[] releaseYear;
@@ -42,7 +45,7 @@ public class ManagerLibrary {
 					show();
 					edit();
 				} else {
-					System.out.println("Data is empty");
+					System.out.println(DATA_NOT_FOUND);
 				}
 				break;
 			case "3":
@@ -50,7 +53,7 @@ public class ManagerLibrary {
 					show();
 					delete();
 				} else {
-					System.out.println("Data is empty");
+					System.out.println(DATA_NOT_FOUND);
 				}
 				break;
 			case "4":
@@ -58,7 +61,7 @@ public class ManagerLibrary {
 					show();
 					find();
 				} else {
-					System.out.println("Data is empty");
+					System.out.println(DATA_NOT_FOUND);
 				}
 				break;
 			case "5":
@@ -66,14 +69,14 @@ public class ManagerLibrary {
 					show();
 					arranger();
 				} else {
-					System.out.println("Data is empty");
+					System.out.println(DATA_NOT_FOUND);
 				}
 				break;
 			case "6":
 				if (x > 0) {
 					saveFile();
 				} else {
-					System.out.println("Data is empty");
+					System.out.println(DATA_NOT_FOUND);
 				}
 				break;
 			case "7":
@@ -148,8 +151,7 @@ public class ManagerLibrary {
 				insertPrice(i);
 			}
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.out.println("Enter input incorrect");
+			System.out.println(INPUT_ERROR + e.getMessage());
 		}
 
 	}
@@ -213,10 +215,10 @@ public class ManagerLibrary {
 					return;
 				}
 			}
-			System.out.println("No find book with code : " + c);
+			System.out.println(FIND_ERROR + c);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.out.println("Enter input incorrect");
+			System.out.println(INPUT_ERROR + e.getMessage());
+
 		}
 	}
 
@@ -247,9 +249,9 @@ public class ManagerLibrary {
 					return;
 				}
 			}
-			System.out.println("No find book with code : " + c);
+			System.out.println(FIND_ERROR + c);
 		} catch (Exception e) {
-			System.out.println("Enter input incorrect");
+			System.out.println(INPUT_ERROR + e.getMessage());
 		}
 	}
 
@@ -281,8 +283,7 @@ public class ManagerLibrary {
 			}
 
 		} catch (Exception e) {
-			System.out.println("Enter input incorrect");
-			System.out.println(e.getMessage());
+			System.out.println(INPUT_ERROR + e.getMessage());
 		}
 	}
 
@@ -324,7 +325,7 @@ public class ManagerLibrary {
 		System.out.println("Library after arranger");
 		show();
 	}
-
+	
 	/**
 	 * Tạo mã sách ngẫu nhiên
 	 * 
@@ -353,7 +354,6 @@ public class ManagerLibrary {
 			System.out.println("Export data successfully");
 		} catch (FileNotFoundException e) {
 			System.out.println("Export data fail , error : " + e.getMessage());
-			e.printStackTrace();
 		}
 	}
 
@@ -368,7 +368,7 @@ public class ManagerLibrary {
 
 			Scanner scanner = new Scanner(fileInputStream);
 			if (!scanner.hasNextLine()) {
-				System.out.println("Data is empty");
+				System.out.println(DATA_NOT_FOUND);
 				scanner.close();
 				return;
 			}
@@ -385,7 +385,6 @@ public class ManagerLibrary {
 			scanner.close();
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
-			e.printStackTrace();
 		}
 	}
 
