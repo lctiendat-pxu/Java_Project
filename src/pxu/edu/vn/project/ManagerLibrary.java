@@ -8,7 +8,6 @@ import java.time.Year;
 import java.util.Scanner;
 
 public class ManagerLibrary {
-
 	static final String URI_SAVE_FILE = "/Users/lctiendat/Documents/books.txt";
 	static final String DATA_NOT_FOUND = "Data not found";
 	static final String FIND_ERROR = "Not find data with code : ";
@@ -21,6 +20,15 @@ public class ManagerLibrary {
 	static int[] price;
 	static int x = 0;
 
+	static final String CASE_ADD_BOOK = "1";
+	static final String CASE_EDIT_BOOK = "2";
+	static final String CASE_DELETE_BOOK = "3";
+	static final String CASE_FIND_BOOK = "4";
+	static final String CASE_ARRANGER_BOOK = "5";
+	static final String CASE_EXPORT_FILE_BOOK = "6";
+	static final String CASE_IMPORT_FILE_BOOK = "7";
+	static final String CASE_EXIT_PROGRAM = "q";
+
 	public static void main(String[] args) throws IOException {
 		Scanner sc = new Scanner(System.in);
 		String key = null;
@@ -29,64 +37,40 @@ public class ManagerLibrary {
 			System.out.print("Your choice: ");
 			key = sc.next();
 			switch (key) {
-			case "1":
-				x = enterTheQuantity();
-				code = new int[x];
-				name = new String[x];
-				releaseYear = new int[x];
-				author = new String[x];
-				quantity = new int[x];
-				price = new int[x];
-				create();
-				show();
-				break;
-			case "2":
-				if (x > 0) {
+				case CASE_ADD_BOOK:
+					x = enterTheQuantity();
+					code = new int[x];
+					name = new String[x];
+					releaseYear = new int[x];
+					author = new String[x];
+					quantity = new int[x];
+					price = new int[x];
+					create();
 					show();
+					break;
+				case CASE_EDIT_BOOK:
 					edit();
-				} else {
-					System.out.println(DATA_NOT_FOUND);
-				}
-				break;
-			case "3":
-				if (x > 0) {
-					show();
+					break;
+				case CASE_DELETE_BOOK:
 					delete();
-				} else {
-					System.out.println(DATA_NOT_FOUND);
-				}
-				break;
-			case "4":
-				if (x > 0) {
-					show();
+					break;
+				case CASE_FIND_BOOK:
 					find();
-				} else {
-					System.out.println(DATA_NOT_FOUND);
-				}
-				break;
-			case "5":
-				if (x > 0) {
-					show();
+					break;
+				case CASE_ARRANGER_BOOK:
 					arranger();
-				} else {
-					System.out.println(DATA_NOT_FOUND);
-				}
-				break;
-			case "6":
-				if (x > 0) {
+					break;
+				case CASE_EXPORT_FILE_BOOK:
 					saveFile();
-				} else {
-					System.out.println(DATA_NOT_FOUND);
-				}
-				break;
-			case "7":
-				readFile();
-				break;
-			case "q":
-				System.out.println("Good bye!");
-				System.exit(0);
-			default:
-				break;
+					break;
+				case CASE_IMPORT_FILE_BOOK:
+					readFile();
+					break;
+				case CASE_EXIT_PROGRAM:
+					System.out.println("Good bye!");
+					System.exit(0);
+				default:
+					break;
 			}
 		} while (!key.equals("q"));
 
@@ -101,14 +85,14 @@ public class ManagerLibrary {
 	 */
 	public static void displayMenu() {
 		System.out.println("----------MENU MANAGE LIBRARY----------");
-		System.out.println("(1) Add book");
-		System.out.println("(2) Edit book");
-		System.out.println("(3) Delete book");
-		System.out.println("(4) Find book");
-		System.out.println("(5) Arranger book");
-		System.out.println("(6) Export data to file");
-		System.out.println("(7) Import data from file and show it");
-		System.out.println("(q) Quit");
+		System.out.println("(" + CASE_ADD_BOOK + ") Add book");
+		System.out.println("(" + CASE_EDIT_BOOK + ") Edit book");
+		System.out.println("(" + CASE_DELETE_BOOK + ") Delete book");
+		System.out.println("(" + CASE_FIND_BOOK + ") Find book");
+		System.out.println("(" + CASE_ARRANGER_BOOK + ") Arranger book");
+		System.out.println("(" + CASE_EXPORT_FILE_BOOK + ") Export data to file");
+		System.out.println("(" + CASE_IMPORT_FILE_BOOK + ") Import data from file and show it");
+		System.out.println("(" + CASE_EXIT_PROGRAM + ") Quit");
 	}
 
 	/**
@@ -162,10 +146,10 @@ public class ManagerLibrary {
 	 * @return void
 	 */
 	public static void headTable() {
-		System.out.println("---------------------------------------------------------------------------");
+		System.out.println("-----------------------------------------------------------------------------------");
 		System.out.printf("%-10s %-15s %-15s %-15s %-10s %-10s\n", "Code | ", "Name | ", "Release Year | ", " Author |",
 				"Quantity | ", "Price");
-		System.out.println("---------------------------------------------------------------------------");
+		System.out.println("------------------------------------------------------------------------------------");
 	}
 
 	/**
@@ -176,7 +160,7 @@ public class ManagerLibrary {
 	public static void show() {
 		headTable();
 		for (int i = 0; i < x; i++) {
-			System.out.printf("%-10s %-15s %-15s %-15s %-10s %-10s\n", code[i], name[i], releaseYear[i], author[i],
+			System.out.printf("%-10s %-15s %-15s %-15 %-10s %-10s\n", code[i], name[i], releaseYear[i], author[i],
 					quantity[i], price[i]);
 		}
 	}
@@ -204,6 +188,11 @@ public class ManagerLibrary {
 	public static void edit() {
 		Scanner sc = new Scanner(System.in);
 		try {
+			if (x <= 0) {
+				System.out.println(DATA_NOT_FOUND);
+				return;
+			}
+			show();
 			System.out.print("Enter code want edit : ");
 			String c = sc.nextLine();
 			for (int i = 0; i < x; i++) {
@@ -230,7 +219,11 @@ public class ManagerLibrary {
 	public static void delete() {
 		Scanner sc = new Scanner(System.in);
 		try {
-
+			if (x <= 0) {
+				System.out.println(DATA_NOT_FOUND);
+				return;
+			}
+			show();
 			System.out.print("Enter code want delete : ");
 			int c = sc.nextInt();
 			for (int i = 0; i < x; i++) {
@@ -263,6 +256,11 @@ public class ManagerLibrary {
 	public static void find() {
 		Scanner sc = new Scanner(System.in);
 		try {
+			if (x <= 0) {
+				System.out.println(DATA_NOT_FOUND);
+				return;
+			}
+			show();
 			System.out.print("Enter name want find : ");
 			String n = sc.nextLine();
 			int[] newBookArr = new int[x];
@@ -293,6 +291,10 @@ public class ManagerLibrary {
 	 * @return void
 	 */
 	public static void arranger() {
+		if (x <= 0) {
+			System.out.println(DATA_NOT_FOUND);
+			return;
+		}
 		for (int i = 0; i < x - 1; i++) {
 			for (int j = 0; j < x - i - 1; j++) {
 				if (price[j] > price[j + 1]) {
@@ -325,7 +327,7 @@ public class ManagerLibrary {
 		System.out.println("Library after arranger");
 		show();
 	}
-	
+
 	/**
 	 * Tạo mã sách ngẫu nhiên
 	 * 
@@ -343,11 +345,16 @@ public class ManagerLibrary {
 	 */
 	public static void saveFile() throws IOException {
 		try {
+			if (x <= 0) {
+				System.out.println(DATA_NOT_FOUND);
+				return;
+			}
+			show();
 			FileOutputStream file = new FileOutputStream(URI_SAVE_FILE);
 			String data = "";
 			for (int i = 0; i < x; i++) {
-				data += code[i] + "," + name[i] + "," + releaseYear[i] + "," + author[i] + "," + quantity[i] + ","
-						+ price[i] + "\n";
+				data += code[i] + "," + name[i] + "," + releaseYear[i] + "," + author[i] + ","
+						+ quantity[i] + "," + price[i] + "\n";
 			}
 			file.write(data.getBytes());
 			file.close();
@@ -379,8 +386,8 @@ public class ManagerLibrary {
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();
 				String[] data = line.split(",");
-				System.out.printf("%-10s %-15s %-15s %-15s %-10s %-10s\n", data[0], data[1], data[2], data[3], data[4],
-						data[5]);
+				System.out.printf("%-10s %-15s %-15s %-15s %-10s %-10s\n", data[0], data[1],
+						data[2], data[3], data[4], data[5]);
 			}
 			scanner.close();
 		} catch (FileNotFoundException e) {
